@@ -13,10 +13,13 @@ public class TestUserServiceImpl implements TestUserService{
 
     @Override
     public TestUserEntity getUser(String email) {
+        System.out.println("test");
         return testUserRepository.findTestUserByEmail(email);
     }
     @Override
     public List<TestUserEntity> getAllUsers() {
+
+        System.out.println("test");
         return testUserRepository.findAll();
     }
 

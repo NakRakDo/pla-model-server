@@ -13,12 +13,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(path="/test")
 @RequiredArgsConstructor
 public class TestController {
-
-
     private final TestUserService testUserService;
 
     @GetMapping(path = "/all")
     public List<TestUserEntity> getAllUsers(){
+
         return testUserService.getAllUsers();
     }
 

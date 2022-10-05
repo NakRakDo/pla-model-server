@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 
 
 public interface UserService extends UserDetailsService {
+
+    public boolean doLogin(User user);
     public User getUser(String email);
 
     public List<User> getAllUsers();

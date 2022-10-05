@@ -1,4 +1,4 @@
-package com.example.pmb.global.config.db;
+package com.example.pmb.global.config.spring;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;

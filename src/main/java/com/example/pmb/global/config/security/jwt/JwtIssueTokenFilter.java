@@ -1,7 +1,6 @@
 package com.example.pmb.global.config.security.jwt;
 
 import com.example.pmb.domain.auth.dto.UserDto;
-import com.example.pmb.domain.auth.entity.User;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -18,7 +17,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @RequiredArgsConstructor
-public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
+public class JwtIssueTokenFilter extends UsernamePasswordAuthenticationFilter {
 
     public static final String HTTP_METHOD = "POST";
     private final AuthenticationManager authenticationManager;

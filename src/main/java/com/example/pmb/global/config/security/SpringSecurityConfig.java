@@ -1,26 +1,13 @@
 package com.example.pmb.global.config.security;
 
-import com.example.pmb.domain.auth.component.UserService;
-import com.example.pmb.domain.auth.entity.User;
-import com.example.pmb.global.config.security.jwt.CustomAuthenticationFilter;
-import com.example.pmb.global.config.security.jwt.JwtAuthenticationFilter;
-import javax.sql.DataSource;
-import lombok.AllArgsConstructor;
+import com.example.pmb.global.config.security.jwt.JwtIssueTokenFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
-import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.JdbcUserDetailsManager;
-import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.AuthenticationFilter;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @EnableWebSecurity
@@ -30,7 +17,7 @@ public class SpringSecurityConfig {
     /*private UserService userService; //userDetailService
     private PasswordEncoderConfig passwordEncoderConfig; //userDetailService*/
     /*private JwtAuthenticationFilter jwtAuthenticationFilter;*/
-    //private CustomAuthenticationFilter customAuthenticationFilter;
+    private JwtIssueTokenFilter jwtIssueTokenFilter;
 
 
     @Bean
@@ -45,18 +32,20 @@ public class SpringSecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
-        http
+        http.formLogin().disable()
             .csrf().disable()
             .formLogin().disable()
             .httpBasic().disable();
         http
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         http.authorizeRequests()
-            .antMatchers("/login/**").permitAll()
+            .antMatchers("/test/**").permitAll()
+            .antMatchers("/auth/**").permitAll()
             .antMatchers("/social/**").permitAll()
             .antMatchers("/exception/**").permitAll()
             .anyRequest().authenticated();
-        //http.addFilter(customAuthenticationFilter);
+
+        //http.addFilterBefore(jwtIssueTokenFilter, UsernamePasswordAuthenticationFilter.class);
         //http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }

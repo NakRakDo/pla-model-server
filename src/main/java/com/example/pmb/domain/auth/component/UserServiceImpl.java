@@ -17,12 +17,20 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
 
-    @GetMapping(path = "/all")
+
+
+    @Override
     public List<User> getAllUsers(){
         return userRepository.findAll();
     }
 
-    @GetMapping(path = "/one")
+    @Override
+    public boolean doLogin(User user) {
+        User finduser = userRepository.findUserByEmail(user.getEmail());
+        return true;
+    }
+
+    @Override
     public User getUser(@RequestParam String email){
         return userRepository.findUserByEmail(email);
     }
