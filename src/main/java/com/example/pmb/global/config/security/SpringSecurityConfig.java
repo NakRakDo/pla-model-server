@@ -1,6 +1,6 @@
 package com.example.pmb.global.config.security;
 
-import com.example.pmb.global.config.security.jwt.JwtIssueTokenFilter;
+import com.example.pmb.global.config.security.jwt.JwtJsonLoginFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -17,7 +17,7 @@ public class SpringSecurityConfig {
     /*private UserService userService; //userDetailService
     private PasswordEncoderConfig passwordEncoderConfig; //userDetailService*/
     /*private JwtAuthenticationFilter jwtAuthenticationFilter;*/
-    private JwtIssueTokenFilter jwtIssueTokenFilter;
+    private JwtJsonLoginFilter loginFilter;
 
 
     @Bean
@@ -32,12 +32,12 @@ public class SpringSecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
-        http.formLogin().disable()
-            .csrf().disable()
+        http.csrf().disable()
             .formLogin().disable()
             .httpBasic().disable();
         http
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+
         http.authorizeRequests()
             .antMatchers("/test/**").permitAll()
             .antMatchers("/auth/**").permitAll()
@@ -47,6 +47,7 @@ public class SpringSecurityConfig {
 
         //http.addFilterBefore(jwtIssueTokenFilter, UsernamePasswordAuthenticationFilter.class);
         //http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(loginFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
 
