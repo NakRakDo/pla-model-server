@@ -16,5 +16,7 @@ public class JwtJsonLoginAuthFailureHandler implements AuthenticationFailureHand
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
         AuthenticationException exception) throws IOException, ServletException {
 
+        System.out.println("test Fail");
+
     }
 }

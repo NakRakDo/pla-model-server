@@ -1,8 +1,16 @@
 package com.example.pmb.global.config.security;
 
+import com.example.pmb.domain.common.BeanProvider;
+import com.example.pmb.global.config.security.jwt.JwtAuthenticationFilter;
+import com.example.pmb.global.config.security.jwt.JwtJsonLoginAuthFailureHandler;
+import com.example.pmb.global.config.security.jwt.JwtJsonLoginAuthManager;
+import com.example.pmb.global.config.security.jwt.JwtJsonLoginAuthSuccessHandler;
 import com.example.pmb.global.config.security.jwt.JwtJsonLoginFilter;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
@@ -10,15 +18,12 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-@EnableWebSecurity
-@RequiredArgsConstructor
+@EnableWebSecurity(debug = true)
 public class SpringSecurityConfig {
 
     /*private UserService userService; //userDetailService
     private PasswordEncoderConfig passwordEncoderConfig; //userDetailService*/
     /*private JwtAuthenticationFilter jwtAuthenticationFilter;*/
-    private JwtJsonLoginFilter loginFilter;
-
 
     @Bean
     public WebSecurityCustomizer configure() {
@@ -47,8 +52,14 @@ public class SpringSecurityConfig {
 
         //http.addFilterBefore(jwtIssueTokenFilter, UsernamePasswordAuthenticationFilter.class);
         //http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
-        http.addFilterBefore(loginFilter, UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(jwtJsonLoginFilter(), UsernamePasswordAuthenticationFilter.class);
         return http.build();
+    }
+
+    private JwtJsonLoginFilter jwtJsonLoginFilter() throws Exception{
+        ApplicationContext applicationContext = BeanProvider.getApplicationContext();
+        JwtJsonLoginFilter jwtJsonLoginFilter = applicationContext.getBean(JwtJsonLoginFilter.class);
+        return jwtJsonLoginFilter;
     }
 
 /*

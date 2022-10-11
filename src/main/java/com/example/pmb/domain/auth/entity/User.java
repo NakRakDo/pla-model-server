@@ -1,5 +1,6 @@
 package com.example.pmb.domain.auth.entity;
 
+import com.example.pmb.domain.common.BaseEntity;
 import java.util.Collection;
 import java.util.Date;
 import javax.persistence.Column;
@@ -19,7 +20,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 @Table(name = "test_user")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-public class User implements UserDetails {
+public class User extends BaseEntity implements UserDetails {
 
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)

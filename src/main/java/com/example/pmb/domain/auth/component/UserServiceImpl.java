@@ -6,6 +6,7 @@ import com.example.pmb.domain.auth.repository.UserRepository;
 import java.util.List;
 import javax.sql.DataSource;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -16,9 +17,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
-
-
-
     @Override
     public List<User> getAllUsers(){
         return userRepository.findAll();
@@ -31,13 +29,19 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User getUser(@RequestParam String email){
+    public User getUser(String email){
         return userRepository.findUserByEmail(email);
     }
 
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        return userRepository.findUserByUsername(username);
+        //return null;
+    }
+
+    @Override
+    public String loadPasswordByUsername(String name) throws BadCredentialsException {
         return null;
     }
 }
