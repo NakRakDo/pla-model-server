@@ -5,6 +5,7 @@ import com.example.pmb.domain.auth.entity.User;
 import com.example.pmb.global.config.security.PasswordEncoderConfig;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -26,20 +27,21 @@ public class JwtJsonLoginAuthProvider implements AuthenticationProvider {
         String password = (String)authentication.getCredentials();
 
         User user = (User)userService.loadUserByUsername(username);
+
         //throw new UsernameNotFoundException("test");
 
         // password 일치하지 않으면!
-        /*if(!passwordEncoder.matches(password,accountContext.getAccount().getPassword())){
-            throw new BadCredentialsException("BadCredentialsException");
-        }*/
+        if(!password.equals(user.getPassword())){
+            throw new BadCredentialsException("testBadCredentialsException");
+        }
 
-        UsernamePasswordAuthenticationToken token
+        UsernamePasswordAuthenticationToken authCompleteToken
             = new UsernamePasswordAuthenticationToken(
             user.getUsername(),
             user.getPassword(),
             user.getAuthorities());
 
-        return token;
+        return authCompleteToken;
     }
 
     @Override

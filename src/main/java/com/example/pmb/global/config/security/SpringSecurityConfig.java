@@ -40,6 +40,7 @@ public class SpringSecurityConfig {
         http.csrf().disable()
             .formLogin().disable()
             .httpBasic().disable();
+
         http
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
@@ -50,8 +51,6 @@ public class SpringSecurityConfig {
             .antMatchers("/exception/**").permitAll()
             .anyRequest().authenticated();
 
-        //http.addFilterBefore(jwtIssueTokenFilter, UsernamePasswordAuthenticationFilter.class);
-        //http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
         http.addFilterBefore(jwtJsonLoginFilter(), UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }

@@ -2,6 +2,7 @@ package com.example.pmb.domain.web.auth;
 
 
 import com.example.pmb.domain.auth.component.UserService;
+import com.example.pmb.domain.auth.dto.UserDto;
 import com.example.pmb.domain.auth.entity.User;
 import com.example.pmb.domain.test.TestUserService;
 import lombok.RequiredArgsConstructor;
@@ -18,13 +19,18 @@ public class UserController {
 
 
     @PostMapping("/login")
-    public String doLogin(@RequestBody User user){
+    public String doLogin(@RequestBody UserDto userDto){
         /*
         * curl -d "{""email"":""kyunghun96@gmail.com""}" -H "Content-Type: application/json" -X POST localhost:8080/auth/login
         * */
         String test = "";
-        userService.doLogin(user);
-        System.out.println(user.getName());
+        userService.doLogin(userDto);
+        System.out.println(userDto.getUsername());
+        return null;
+    }
+
+    @GetMapping(path = "/join")
+    public String doJoin(@RequestBody UserDto userDto){
         return null;
     }
 

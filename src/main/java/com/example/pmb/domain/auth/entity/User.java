@@ -21,23 +21,31 @@ import org.springframework.security.core.userdetails.UserDetails;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 public class User extends BaseEntity implements UserDetails {
-
+    //https://ch4njun.tistory.com/274
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
     @Column(name = "id")
     private Integer id;
+    @Column(name = "username")
+    private String username;
+    @Column(name = "password")
+    private String password;
 
-    @Column(name = "name")
-    private String name;
+    @Column(name = "login_fail_cnt")
+    private String loginFailCnt;
 
-    @Column(name = "email")
-    private String email;
+    @Column(name = "login_fail_time")
+    private Date loginFailTime;
 
-    @Column(name = "age")
-    private Integer age;
+    @Column(name = "login_lock_Yn")
+    private String loginLockYn;
 
-    @Column(name = "reg_date")
-    private Date regDate;
+    @Column(name = "login_lock_cnt")
+    private String loginLockCnt;
+
+    @Column(name = "login_lock_time")
+    private Date loginLockTime;
+
 
     //
     @Override
@@ -46,13 +54,13 @@ public class User extends BaseEntity implements UserDetails {
     }
 
     @Override
-    public String getPassword() {
-        return null;
+    public String getUsername() {
+        return username;
     }
 
     @Override
-    public String getUsername() {
-        return null;
+    public String getPassword() {
+        return password;
     }
 
     @Override

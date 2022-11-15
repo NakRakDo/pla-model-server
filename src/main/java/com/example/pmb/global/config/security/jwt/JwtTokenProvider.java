@@ -31,6 +31,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class JwtTokenProvider {
 
+    private final String SUBJECT = "jwt";
+    private final String ISSUER = "pms";
     private OctetKeyPair jwk;
     private OctetKeyPair publicJwk;
     private JWSSigner jwsSigner;
@@ -55,9 +57,9 @@ public class JwtTokenProvider {
         // Prepare JWT with claims set
 
         JWTClaimsSet claimsSet = new JWTClaimsSet.Builder()
-            .subject("jwt")
+            .subject(SUBJECT)
             .audience(userPk)
-            .issuer("pms")
+            .issuer(ISSUER)
             .expirationTime(new Date(new Date().getTime() + tokenValidTime))
             //.claim("user",userPk) private claim
             .build();
@@ -79,6 +81,7 @@ public class JwtTokenProvider {
 
     // Request의 Header에서 token 값을 가져옵니다. "X-AUTH-TOKEN" : "TOKEN값'
     public String resolveToken(HttpServletRequest request) {
+        //TODO use redis inmemory DB
         return request.getHeader("X-AUTH-TOKEN");
     }
 

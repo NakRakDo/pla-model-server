@@ -1,17 +1,16 @@
 package com.example.pmb.domain.auth.component;
 
 
+import com.example.pmb.domain.auth.dto.UserDto;
 import com.example.pmb.domain.auth.entity.User;
 import com.example.pmb.domain.auth.repository.UserRepository;
+import com.example.pmb.domain.auth.repository.UserRepositoryImpl;
 import java.util.List;
-import javax.sql.DataSource;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 @Service
 @RequiredArgsConstructor
@@ -23,14 +22,15 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean doLogin(User user) {
-        User finduser = userRepository.findUserByEmail(user.getEmail());
+    public boolean doLogin(UserDto user) {
+        User finduser = userRepository.findUserByUsername(user.getUsername());
+        if(finduser.getUsername() == null) return false;
         return true;
     }
 
     @Override
     public User getUser(String email){
-        return userRepository.findUserByEmail(email);
+        return userRepository.findUserByUsername(email);
     }
 
 
